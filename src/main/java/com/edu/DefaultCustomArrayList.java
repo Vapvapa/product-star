@@ -1,8 +1,6 @@
 package com.edu;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * {@code DefaultCustomArrayList} — это реализация интерфейса {@link com.edu.CustomArrayList},
@@ -76,24 +74,50 @@ public class DefaultCustomArrayList<E> implements CustomArrayList<E> {
      */
     @Override
     public boolean add(E element) {
-        if (element == null) {
+        if (Objects.isNull(element)) {
             return false;
         }
         if (getSize() == getElementData().length) {
             growElementData();
         }
-        E[] res = getElementData();
-        res[getSize()] = element;
+        E[] resultArray = getElementData();
+        resultArray[getSize()] = element;
         setSize(getSize() + 1);
-        setElementData(res);
+        setElementData(resultArray);
         return true;
     }
 
     /**
-     * Увеличивает емкость массива, удваивая его текущий размер.
+     * Увеличивает ёмкость массива, удваивая его текущий размер.
      */
     private void growElementData() {
         setElementData(Arrays.copyOf(getElementData(), getSize() * 2));
+    }
+
+    /**
+     * Добавляет все элементы из указанной коллекции в конец этого списка.
+     *
+     * @param c коллекция элементов, которые необходимо добавить в список
+     * @return {@code true}, если список был изменён в результате вызова (т.е. были добавлены новые элементы),
+     *         иначе {@code false}
+     * @throws NullPointerException если переданная коллекция {@code c} равна {@code null}
+     */
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
+        if (Objects.isNull(c)) {
+            throw new NullPointerException("Переданная в метод addAll() класса DefaultCustomArrayList коллекция - null");
+        }
+        for (E element : c) {
+            if (Objects.isNull(element)) {
+                throw new NullPointerException("Коллекция содержит null элемент");
+            }
+        }
+
+        boolean isModified = false;
+        for (E element : c) {
+            isModified = add(element);
+        }
+        return isModified;
     }
 
     /**
@@ -184,7 +208,7 @@ public class DefaultCustomArrayList<E> implements CustomArrayList<E> {
      */
     @Override
     public boolean contains(E element) {
-        if (element == null) {
+        if (Objects.isNull(element)) {
             return false;
         }
         E[] elementData = getElementData();

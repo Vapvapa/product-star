@@ -1,4 +1,5 @@
 package com.edu;
+import java.util.Collection;
 import java.util.Iterator;
 
 /**
@@ -19,6 +20,16 @@ public interface CustomArrayList<E> extends Iterable<E> {
      * @return {@code true}, если элемент был успешно добавлен, иначе {@code false}.
      */
     boolean add(E element);
+
+    /**
+     * Добавляет все элементы из указанной коллекции в конец этого списка.
+     *
+     * @param c коллекция элементов, которые необходимо добавить в список
+     * @return {@code true}, если список был изменён в результате вызова (т.е. были добавлены новые элементы),
+     *         иначе {@code false}
+     * @throws NullPointerException если переданная коллекция {@code c} равна {@code null}
+     */
+    boolean addAll(Collection<? extends E> c);
 
     /**
      * Удаляет первое вхождение указанного элемента из этого списка.
